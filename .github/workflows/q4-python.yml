@@ -1,6 +1,7 @@
 name: Python
 
-
+on:
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,3 +22,12 @@ jobs:
 
       - name: Check
         run: python -m py_compile src/main.py
+
+      - name: Run Tests
+        run: pytest
+
+      - name: Docker Build
+        run: docker-build -t python-app:latest .
+
+      - name: Docker Run
+        run: docker run -d --name python-app-container python-app:latest
